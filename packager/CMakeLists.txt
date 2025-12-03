@@ -71,6 +71,9 @@ if(NOT Python3_EXECUTABLE)
   find_package(Python3 COMPONENTS Interpreter REQUIRED)
 endif()
 
+# Option to select system libraries (when ON) or third-party (when OFF).
+option(USE_SYSTEM_LIBS "Use system-installed libraries" OFF)
+
 # Subdirectories with their own CMakeLists.txt, all of whose targets are built.
 add_subdirectory(file)
 add_subdirectory(kv_pairs)

@@ -6,6 +6,8 @@
 
 # Packager CMake build file for third-party libraries.
 
+cmake_minimum_required(VERSION 3.31)
+
 # Tell third-party libraries generally not to build their own tests.
 set(BUILD_TESTING OFF)
 
@@ -36,18 +38,34 @@ else()
   add_compile_options(-w)
 endif()
 
-# These all use EXCLUDE_FROM_ALL so that only the referenced targets get built.
-add_subdirectory(abseil-cpp EXCLUDE_FROM_ALL)
-add_subdirectory(c-ares EXCLUDE_FROM_ALL)
-add_subdirectory(curl EXCLUDE_FROM_ALL)
-add_subdirectory(googletest EXCLUDE_FROM_ALL)
-add_subdirectory(json EXCLUDE_FROM_ALL)
-# NOTE: libpng references zlib, so put zlib before libpng
-add_subdirectory(zlib EXCLUDE_FROM_ALL)
-add_subdirectory(libpng EXCLUDE_FROM_ALL)
-add_subdirectory(libwebm EXCLUDE_FROM_ALL)
-add_subdirectory(libxml2 EXCLUDE_FROM_ALL)
-add_subdirectory(mbedtls EXCLUDE_FROM_ALL)
-add_subdirectory(mimalloc EXCLUDE_FROM_ALL)
-add_subdirectory(mongoose EXCLUDE_FROM_ALL)
-add_subdirectory(protobuf EXCLUDE_FROM_ALL)
+if(USE_SYSTEM_LIBS)
+  find_package(absl)
+    #find_package(absl REQUIRED COMPONENTS flags flags_parse log strings)
+  # note: absl exports targets like absl::strings, absl::flags etc.
+  find_package(cares)
+  find_package(CURL)
+  find_package(googletest)
+  find_package(json)
+  find_package(ZLIB)
+  find_package(libpng)
+  find_package(libwebm)
+  find_package(libxml2)
+  find_package(mbedtls)
+  find_package(mimalloc)
+  find_package(mongoose)
+  find_package(Protobuf)
+else()
+  add_subdirectory(abseil-cpp EXCLUDE_FROM_ALL)
+  add_subdirectory(c-ares EXCLUDE_FROM_ALL)
+  add_subdirectory(curl EXCLUDE_FROM_ALL)
+  add_subdirectory(googletest EXCLUDE_FROM_ALL)
+  add_subdirectory(json EXCLUDE_FROM_ALL)
+  add_subdirectory(zlib EXCLUDE_FROM_ALL)
+  add_subdirectory(libpng EXCLUDE_FROM_ALL)
+  add_subdirectory(libwebm EXCLUDE_FROM_ALL)
+  add_subdirectory(libxml2 EXCLUDE_FROM_ALL)
+  add_subdirectory(mbedtls EXCLUDE_FROM_ALL)
+  add_subdirectory(mimalloc EXCLUDE_FROM_ALL)
+  add_subdirectory(mongoose EXCLUDE_FROM_ALL)
+  add_subdirectory(protobuf EXCLUDE_FROM_ALL)
+endif()
